@@ -1,0 +1,10 @@
+development:
+  hosts:
+    - localhost:27017
+  options:
+    database: audits
+production:
+  hosts:
+    - <%= ENV["AUDITING_MONGO_HOST"].split(',').join '\n\t\t- ' %>
+  options:
+    database: <%= ENV["AUDITING_MONGO_DATABASE_NAME"] %>

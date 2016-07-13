@@ -1,0 +1,12 @@
+development:
+  host: 'http://localhost:9200'
+  index: auditing
+test:
+  url: 'http://localhost:9200'
+  index: auditing
+staging:
+  url: 'http://localhost:9200'
+  index: auditing
+production:
+  url: <%= ENV["AUDIT_STORE_HOST"] %>
+  index: <%= ENV["AUDIT_STORE_INDEX"] %>
