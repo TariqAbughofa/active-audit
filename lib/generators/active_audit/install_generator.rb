@@ -8,17 +8,14 @@ module ActiveAudit
 
       desc "Create initializer and config files for active audit base on the adapter you define. In case of 'active_record' adapter a migration will be generated as well."
 
-      argument :adapter, required: true, type: :string, desc: "The name of the storage adapter you want to use.",
+      argument :adapter, required: true, type: :string, default: "test", desc: "The name of the storage adapter you want to use.",
            :banner => "adapter_name"
 
       source_root File.expand_path("../templates", __FILE__)
 
       def copy_initializer_file
         template "initializer.rb", "config/initializers/active_audit.rb"
-      end
-
-      def copy_config_file
-        unless adapter == 'active_record'
+        unless adapter == 'active_record' || adapter == 'test'
           copy_file "#{adapter}_config.yml", "config/active_audit.yml"
         end
       end
