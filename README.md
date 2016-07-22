@@ -21,7 +21,7 @@ $ rails generate active_audit:install
 It can be used to track changes to [ActiveRecord](http://api.rubyonrails.org/classes/ActiveRecord/Base.html),
 [Mongoid](http://mongoid.org/).
 
-Audting a model is as simple as including the **ActiveAudit::Base** module to you model like this:
+Auditing a model is as simple as including the **ActiveAudit::Base** module to you model like this:
 
 ```ruby
 class Product < ActiveRecord::Base
@@ -31,7 +31,7 @@ end
 
 You can define options for you model auditing throw the `audit` function. It takes as arguments the attributes you want to track their changes and it can take one or more of the following options:
 
-1. **type**: string/symbole that represent the type of the item being audited (by default its the parameterized class name).
+1. **type**: string/symbol that represent the type of the item being audited (by default its the parameterized class name).
 2. **except**: a list of model attributes not to audit changes (if it was defined with only the audited attributes will be the difference between the two but that is not recommended as it's not clear).
 3. **unless**: a lambda function returns a boolean and the auditing will be cancled if it evalutaes to true or a symbol represents a name of an instance function of your model.
 
@@ -55,6 +55,7 @@ Active Audit is extremely simple to configure. Just check the `config/initialize
 
 ```ruby
 ActiveAudit.configure do |config|
+  config.storage_adapter = :test
   #config.current_user_method = :current_user
   #config.ignored_attributes = %w(created_at updated_at)
   #config.delayed_auditing = false
@@ -81,4 +82,4 @@ The available options are described in the table bellow:
 
 ### Storage Adapters
 
-Active Audit implements the repository pattern to save and retrieve model audits. By default it will use its `TestAdapter` to do the job which is no more than logging the audits using Rails logger. Of course that is no the behaviour you want to have on production; You can use on of the available Active Audit storage adapters: `MongoAdapter`, `ActiveRecordAdapter`, `ElasticsearchAdapter`
+Active Audit implements the repository pattern to save and retrieve model audits. By default it will use its `TestAdapter` to do the job which is no more than logging the audits using Rails logger. Of course that is no the behaviour you want to have on production; You can use on of the available Active Audit storage adapters: `:mongo`, `:active_record`, `:elasticsearch`.
