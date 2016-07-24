@@ -31,21 +31,21 @@ end
 
 You can define options for you model auditing throw the `audit` function. It takes as arguments the attributes you want to track their changes and it can take one or more of the following options:
 
-1. **type**: string/symbol that represent the type of the item being audited (by default its the parameterized class name).
+1. **type**: string/symbol that represent the type of the item being audited (by default its the class name in underscore style).
 2. **except**: a list of model attributes not to audit changes (if it was defined with only the audited attributes will be the difference between the two but that is not recommended as it's not clear).
 3. **unless**: a lambda function returns a boolean and the auditing will be cancled if it evalutaes to true or a symbol represents a name of an instance function of your model.
 
 ### Tracking Active Record association changes
 
 1. one to many (belongs_to) assocation changes can be audited by auditing the foreign key itself.
-1. many to many (belongs_to) assocation changes can be audited by adding the option **association** to the audit function: `association: [:stores]`.
+1. many to many (belongs_to) assocation changes can be audited by adding the option **association** to the audit function.
 
 Here is our model with a bunch of auditing options:
 
 ```ruby
 class Product < ActiveRecord::Base
   include ActiveAudit::Base
-  audit :price, :availability, :free_shipping, :num_items, type: :cool_product, unless: lambda { |product| product.availabilty === :discontinued }
+  audit :price, :availability, :free_shipping, :num_items, type: :cool_product, associations: [:stores ], unless: lambda { |product| product.availabilty === :discontinued }
 end
 ```
 

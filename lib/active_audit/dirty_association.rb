@@ -12,9 +12,7 @@ module ActiveAudit
               through_id = reflection.foreign_key
               through_name = through_refl.name
               define_association_method_suffix association_name
-              ActiveRecord::Associations::Builder::CollectionAssociation.define_callback(self, :after_add, through_name, before_add: lambda do |model, relation|
-                puts "addubng"
-                puts relation.attributes
+              ActiveRecord::Associations::Builder::CollectionAssociation.define_callback(self, :before_add, through_name, before_add: lambda do |model, relation|
                 DirtyAssociation.record_add association_name, model, relation, through_name, through_id
               end)
               ActiveRecord::Associations::Builder::CollectionAssociation.define_callback(self, :before_remove, through_name, before_remove: lambda do |model, relation|
