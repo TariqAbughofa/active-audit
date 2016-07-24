@@ -38,7 +38,9 @@ module ActiveAudit
         end
     end
 
-    attr_reader :association_previous_changes
+    def association_previous_changes
+      @association_previous_changes ||= ActiveSupport::HashWithIndifferentAccess.new
+    end
 
     def association_changes
       @association_changes ||= ActiveSupport::HashWithIndifferentAccess.new

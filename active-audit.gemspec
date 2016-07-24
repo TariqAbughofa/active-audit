@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'active-audit'
-  s.version     = "0.2.1"
+  s.version     = "0.2.2"
   s.platform    = Gem::Platform::RUBY
   s.date        = '2016-07-16'
   s.summary     = "ORM extension to track model changes."
