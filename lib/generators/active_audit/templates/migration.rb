@@ -6,7 +6,7 @@ class <%= migration_class_name %> < ActiveRecord::Migration
       t.column :event, :string
       t.column :changes, :json
       t.column :user_id, :integer
-      t.column :user, :json
+      t.column :attributed_to, :json
       t.column :comment, :string
       t.column :recorded_at, :datetime
     end

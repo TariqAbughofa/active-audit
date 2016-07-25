@@ -27,7 +27,7 @@ module ActiveAudit
           indexes :item_id, type: "long"
           indexes :event, type: "string", index: "not_analyzed"
           indexes :changes, type: "object", dynamic: true
-          indexes :user, type: "object", properties: {
+          indexes :attributed_to, type: "object", properties: {
             id: { type: "long" },
             name: {type: "string", index: "not_analyzed"}
           }

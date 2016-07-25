@@ -12,13 +12,13 @@ module ActiveAudit
       end
 
       def save audit
-        @connection.exec_query('INSERT INTO audits("item_id", "event", "type", "changes", "user_id", "user", "comment", "recorded_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8);', nil, [
+        @connection.exec_query('INSERT INTO audits("item_id", "event", "type", "changes", "user_id", "attributed_to", "comment", "recorded_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8);', nil, [
           [nil, audit.item_id],
           [nil, audit.event],
           [nil, audit.type],
           [nil, audit.changes.to_json],
-          [nil, audit.user[:id]],
-          [nil, audit.user.to_json],
+          [nil, audit.attributed_to[:id]],
+          [nil, audit.attributed_to.to_json],
           [nil, audit.comment],
           [nil, audit.recorded_at]
         ])

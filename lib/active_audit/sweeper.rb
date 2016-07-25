@@ -17,7 +17,7 @@ module ActiveAudit
     end
 
     def before_create audit
-      audit.user = self.user if self.user
+      audit.attributed_to = self.user if self.user
       audit.comment = controller.params[:comment] if controller.respond_to?(:params, true)
       audit.comment ||= ActiveAudit.session[:comment]
     end

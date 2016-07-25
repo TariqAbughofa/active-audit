@@ -15,13 +15,13 @@ module ActiveAudit
     attribute :event, String
     attribute :type, String
     attribute :changes, Hash
-    attribute :user, Hash, default: lambda {|o,a| ActiveAudit.default_user }
+    attribute :attributed_to, Hash, default: lambda {|o,a| ActiveAudit.default_user }
     attribute :comment, String
     attribute :recorded_at, Time, default: lambda { |o,a| Time.now.utc }
 
     before_save do
       self.recorded_at = Time.at(self.recorded_at) if self.recorded_at.is_a? Integer
-      self.user = ActiveAudit.extract_user_profile.call(self.user) unless self.user.nil? || self.user.is_a?(Hash)
+      self.attributed_to = ActiveAudit.extract_user_profile.call(self.attributed_to) unless self.attributed_to.nil? || self.attributed_to.is_a?(Hash)
     end
 
     def initialize *args
