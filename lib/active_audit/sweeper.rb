@@ -23,7 +23,7 @@ module ActiveAudit
     end
 
     def current_user
-      current_user = controller.send(ActiveAudit.current_user_method) if controller.respond_to?(ActiveAudit.current_user_method, true)
+      controller.send(ActiveAudit.current_user_method) if controller.respond_to?(ActiveAudit.current_user_method, true)
     end
 
     def controller

@@ -64,16 +64,16 @@ module ActiveAudit
 
     def save options={}
       self.run_callbacks :save do
-        yield if changed?
+        self.run_callbacks :create do
+          yield if changed?
+        end
       end
     end
 
     def self.create(attributes, options={})
       object = self.new(attributes)
-      object.run_callbacks :create do
-        object.save(options)
-        object
-      end
+      object.save(options)
+      object
     end
 
     def serialize
