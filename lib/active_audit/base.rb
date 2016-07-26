@@ -70,7 +70,7 @@ module ActiveAudit
           audit = Audit.new event, self
           if audit.changed?
             if ActiveAudit.delayed_auditing
-              AuditPusher.perform_later audit.serialize
+              AuditPusher.perform_later Audit.serialize(audit)
             else
               AuditRepository.save(audit)
             end

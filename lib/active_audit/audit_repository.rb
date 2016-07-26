@@ -14,7 +14,7 @@ module ActiveAudit
       end
 
       def create attributes
-        save Audit.new(attributes)
+        save Audit.deserialize(attributes)
       end
 
       def save audit

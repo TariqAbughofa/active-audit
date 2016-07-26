@@ -8,6 +8,7 @@ module ActiveAudit
 
     extend  ActiveModel::Callbacks
     define_model_callbacks :create, :save
+    define_model_callbacks :initialize, :only => :after
 
     include ActiveModel::Observing
 
@@ -19,16 +20,12 @@ module ActiveAudit
     attribute :comment, String
     attribute :recorded_at, Time, default: lambda { |o,a| Time.now.utc }
 
-    before_save do
-      self.recorded_at = Time.at(self.recorded_at) if self.recorded_at.is_a? Integer
-      self.attributed_to = ActiveAudit.extract_user_profile.call(self.attributed_to) unless self.attributed_to.nil? || self.attributed_to.is_a?(Hash)
-    end
-
     def initialize *args
       attributes = args.extract_options!
       if attributes.empty?
         if args.count == 2
           initialize_from_record(*args)
+          run_callbacks :initialize
         else
           raise ArgumentError, "You need to supply at least one attribute"
         end
@@ -76,8 +73,12 @@ module ActiveAudit
       object
     end
 
-    def serialize
-      self.attributes.select {|k,v| v.present?}.merge(recorded_at: self.recorded_at.to_i, type: self.type)
+    def self.serialize audit
+      audit.attributes.select {|k,v| v.present?}.merge(recorded_at: audit.recorded_at.to_i)
+    end
+
+    def self.deserialize attributes
+      self.new attributes.update(recorded_at: Time.at(attributes[:recorded_at]))
     end
   end
 end
