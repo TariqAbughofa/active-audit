@@ -19,6 +19,7 @@ module ActiveAudit
       @extract_user_profile = lambda { |user| { id: user.id } }
       self.eager_load!
       yield(self) if block_given?
+      AuditPusher.queue_as job_queue
       AuditRepository.storage_adapter = storage_adapter if storage_adapter
     end
 
